@@ -1,0 +1,125 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/index.css">
+    {% block head %}{% endblock %}
+</head>
+<!-- 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <div style="grid-row: 1/2;margin: 18px 32px;">
+                <input type="text" id="inputField" style="width: 100%;height: 100%;" />
+            </div>
+            <div>
+                <input type="checkbox" id="regexField" style="width: 100%;height: 100%;" />
+            </div>-->
+<!--Twin Sliders taken from https://stackoverflow.com/a/44384948-->
+<!--<div class="rangeslider" style="
+            grid-row: 3/5;
+            margin-top: 0px;
+            width: calc(100% - 40px);
+            padding-right: 20px;
+            padding-left: 20px;
+            margin-left: 0px;">
+                <input class="min" name="range_1" type="range" min="3" max="10" value="3" style="width: calc(100% - 40px);
+                color: white;" />
+                <input class="max" name="range_1" type="range" min="3" max="10" value="10" style="width: calc(100% - 40px);
+                color: white;" />
+                <span class="range_min light left" style="padding-left: 20px;
+                color: white;">3</span>
+                <span class="range_max light right" style="color: white;">10</span>
+
+                <script>document.getElementById('inputField').addEventListener('click', windowFull);
+
+        document.getElementById('inputField').addEventListener('focus', () => {
+            sideWindow.removeEventListener('mouseover', windowSmall);
+            sideWindow.removeEventListener('mouseleave', windowFull);
+        });
+
+        document.getElementById('inputField').addEventListener('blur', () => {
+            sideWindow.addEventListener('mouseover', windowSmall);
+            sideWindow.addEventListener('mouseleave', windowFull);
+        });
+    </script>
+            </div> -->
+
+<body>
+    <div id="Window" class="windowTransition">
+        <div class="window windowTransition" id="mainWindow"
+            style="display: grid;grid-template-rows: repeat(auto-fit,20%);">
+            <div>{% block inputA %}{% endblock %}</div>
+            <div>{% block inputB %}{% endblock %}</div>
+            <div>{% block inputC %}{% endblock %}</div>
+            <div>{% block inputD %}{% endblock %}</div>
+            <div>{% block inputE %}{% endblock %}</div>
+        </div>
+        <div class="window windowTransition" id="sideWindow">
+            {% block sideWindow %}{% endblock %}
+        </div>
+    </div>
+    <script>
+        var mainWindow = document.getElementById('mainWindow');
+        var sideWindow = document.getElementById('sideWindow');
+
+        const windowMax = 'width:calc(66.666vw - 8px)';
+        const windowMin = 'width:calc(33.333vw - 8px)';
+        const templateWidthMax = 'grid-template-columns:66.666% 33.334%';
+        const templateWidthMin = 'grid-template-columns:33.334% 66.666%';
+
+        function windowFull() {
+            mainWindow.setAttribute('style', windowMin);
+            sideWindow.setAttribute('style', windowMax);
+        }
+
+        function windowSmall() {
+            mainWindow.removeAttribute('style', windowMin);
+            sideWindow.removeAttribute('style', windowMax);
+        }
+
+        sideWindow.addEventListener('mouseover', windowFull);
+        sideWindow.addEventListener('mouseleave', windowSmall);
+    </script>
+    <script>
+        (function () {
+
+            function addSeparator(nStr) {
+                nStr += '';
+                var x = nStr.split('.');
+                var x1 = x[0];
+                var x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + '.' + '$2');
+                }
+                return x1 + x2;
+            }
+
+            function rangeInputChangeEventHandler(e) {
+                var rangeGroup = $(this).attr('name'),
+                    minBtn = $(this).parent().children('.min'),
+                    maxBtn = $(this).parent().children('.max'),
+                    range_min = $(this).parent().children('.range_min'),
+                    range_max = $(this).parent().children('.range_max'),
+                    minVal = parseInt($(minBtn).val()),
+                    maxVal = parseInt($(maxBtn).val()),
+                    origin = $(this).context.className;
+
+                if (origin === 'min' && minVal > maxVal - 1) {
+                    $(minBtn).val(maxVal - 1);
+                }
+                var minVal = parseInt($(minBtn).val());
+                $(range_min).html(addSeparator(minVal * 1000));
+
+
+                if (origin === 'max' && maxVal - 1 < minVal) {
+                    $(maxBtn).val(1 + minVal);
+                }
+                var maxVal = parseInt($(maxBtn).val());
+                $(range_max).html(addSeparator(maxVal * 1000));
+            }
+
+            $('input[type="range"]').on('input', rangeInputChangeEventHandler);
+        })();
+    </script>
+</body>
+
+</html>

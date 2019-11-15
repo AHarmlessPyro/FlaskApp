@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>abc</title>
+</head>
+
+<body>
+    short definition is
+    <h1>{{list_item['shortdef'][0]}}</h1>
+
+    {%for item in list_item['def'][0]['sseq']%}
+    <h3>{{item[0][1]['dt'][0][1]|search}}</h3>
+    {%endfor%}
+</body>
+
+</html>
