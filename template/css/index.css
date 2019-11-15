@@ -9,6 +9,9 @@
     display: inline-grid;
     transition: 0.5s width;
     grid-column: 1/2;
+    display: grid;
+    grid-template-rows: repeat(auto-fit, 20%);
+    min-height: 100%;
 }
 
 #sideWindow {

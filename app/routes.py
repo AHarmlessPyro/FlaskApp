@@ -17,6 +17,11 @@ def ret(word):
     val = response.json()
     print(val)
     val = val[0]  # [0][0][0] #['def'][0]['sseq']
-    #while val.size() == 0:
+    # while val.size() == 0:
 
     return render_template('body.html', list_item=val)
+
+
+@app.route('/test')
+def testTemplateNesting():
+    return render_template('MainBody.html')
