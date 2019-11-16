@@ -7,13 +7,16 @@
 </head>
 
 <body>
-    <div id="Window" class="windowTransition">
+    <div style="width: 100%;height: 30px;background-color: black;color: white;margin-bottom: 10px;">
+        <div style="padding-left: 30px; font-size: 25px;">
+            Word Finder
+        </div>
+
+    </div>
+    <div id="Window" class="windowTransition" style="height: calc(100% - 40px);
+    top: 40px;">
         <div class="window windowTransition" id="mainWindow">
             <div>{% block inputA %}{% endblock %}</div>
-            <!-- <div>{% block inputB %}{% endblock %}</div>
-            <div>{% block inputC %}{% endblock %}</div>
-            <div>{% block inputD %}{% endblock %}</div>
-            <div>{% block inputE %}{% endblock %}</div> -->
         </div>
         <div class="window windowTransition" id="sideWindow">
             {% block sideWindow %}{% endblock %}
@@ -31,7 +34,7 @@
         const windowMin = 'width:calc(33.334vw - 8px)';
         const templateWidthMax = 'grid-template-columns:66.666% 33.334%';
         const templateWidthMin = 'grid-template-columns:33.334% 66.666%';
-        
+
         function windowFull() {
             mainWindow.setAttribute('style', windowMin);
             sideWindow.setAttribute('style', windowMax);
@@ -44,6 +47,7 @@
 
         sideWindow.addEventListener('mouseover', windowFull);
         sideWindow.addEventListener('mouseleave', windowSmall);
-    </script>    
+    </script>
 </body>
+
 </html>

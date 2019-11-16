@@ -16,9 +16,8 @@ function temp(event) {
     render(0, out, placementElement);
 }
 
-function init(placementE, inputE) {
+function init(placementE) {
     placementElement = placementE;
-    inputElement = inputE;
     importWords();
     inputE.addEventListener('input', (event) => {
         temp(event);
@@ -75,10 +74,7 @@ function searchAdv(regExString = "", min = 0, max = Infinity) {
             for (item = 0; item < wordList.length; item++) {
                 const word = wordList[item];
                 if (word.length >= min && word.length <= max) {
-                    list.push({
-                        "word": word,
-                        "pos": item
-                    });
+                    list.push(word);
                 }
             }
             return list;
@@ -88,10 +84,7 @@ function searchAdv(regExString = "", min = 0, max = Infinity) {
                 const word = wordList[item];
                 const truth = reg.test(word);
                 if (truth && word.length >= min && word.length <= max) {
-                    list.push({
-                        "word": word,
-                        "pos": item
-                    });
+                    list.push(word);
                 }
             }
             return list;
@@ -129,10 +122,7 @@ function searchBasic(regExString = "", min = 0, max = Infinity) {
             for (item = 0; item < wordList.length; item++) {
                 const word = wordList[item];
                 if (word.length >= min && word.length <= max) {
-                    list.push({
-                        "word": word,
-                        "pos": item
-                    });
+                    list.push(word);
                 }
             }
             return list;
@@ -142,10 +132,7 @@ function searchBasic(regExString = "", min = 0, max = Infinity) {
                 const word = wordList[item];
                 const truth = reg.test(word.toLowerCase());
                 if (truth && word.length >= min && word.length <= max) {
-                    list.push({
-                        "word": word,
-                        "pos": item
-                    });
+                    list.push(word);
                 }
             }
             return list;
@@ -170,7 +157,7 @@ function render(pos, list, element) {
     for (i = pos; i < Math.min(pos + 20, list.length); i++) {
         printList += `<div class="fadebox">
         <span class="fadeInWord" style="animation-delay:${(i - pos) * 300}ms;" id="textSpan${i}">
-            <a href = "./${list[i].word}/${list[i].pos}" style="color:inherit;">${list[i].word}</a>
+            <a href = "./" style="color:inherit;">${list[i]}</a>
         </span>
     </div>
     <br>`;

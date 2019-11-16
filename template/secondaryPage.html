@@ -1,44 +1,8 @@
 {% extends "template.html" %}
 {% block inputA%}
-<div style="display: grid;height: 100%;">
-    <textarea type="text" id="inputE"
-        style="width: calc(100% - 40px);height: calc(100% - 48px);margin: 16px 20px;overflow: hidden;font-size: 20px;resize: none;"></textarea>
-    <div style="display: grid;grid-template-columns: repeat(auto-fit,33.33%);">
-        <div style="color: white;
-        justify-content: center;
-        display: grid;
-        align-content: center;">Basic Regex</div>
-        <div class="InputValueDiv">
-            <label class="switch inputFields">
-                <input type="checkbox" id="preferDouble" style="left: 45%;
-                position: relative;">
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div style="color: white;
-        justify-content: center;
-        display: grid;
-        align-content: center;">Full Regex</div>
-    </div>
-    <!--Twin Sliders taken from https://stackoverflow.com/a/44384948-->
-    <div>
-        <div class="rangeslider" style="
-            margin-top: 0px;
-            width: calc(100% - 40px);
-            padding-right: 20px;
-            padding-left: 20px;
-            margin-left: 0px;">
-            <input class="min" name="range_1" id="range_min" type="range" min="3" max="10" value="3" style="width: calc(100% - 40px);
-                color: white;" />
-            <input class="max" name="range_1" id="range_max" type="range" min="3" max="10" value="10" style="width: calc(100% - 40px);
-                color: white;" />
-            <span class="range_min light left" style="padding-left: 20px;
-                color: white;">3</span>
-            <span class="range_max light right" style="color: white;">10</span>
-        </div>
-    </div>
-</div>
+
 {% endblock %}
+
 {% block sideWindow %}
 <div id="sideWindowE" style="overflow: auto;">
 </div>{% endblock %}
