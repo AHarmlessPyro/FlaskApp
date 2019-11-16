@@ -76,7 +76,7 @@ function importWords() {
 
 function searchAdv(regExString = "", min = 0, max = Infinity) {
     try {
-        reg = new RegExp(`^${regExString}.*`);
+        reg = new RegExp(`^${regExString.toLowerCase()}.*`);
         console.log(reg);
         if (regExString == "") {
             list = [];
@@ -94,7 +94,7 @@ function searchAdv(regExString = "", min = 0, max = Infinity) {
             list = [];
             for (item = 0; item < wordList.length; item++) {
                 const word = wordList[item];
-                const truth = reg.test(word);
+                const truth = reg.test(word.word.toLowerCase());
                 if (truth && word.word.length >= min && word.word.length <= max) {
                     list.push({
                         "word": word.word,
@@ -127,9 +127,7 @@ function searchBasic(regExString = "", min = 0, max = Infinity) {
                 return ['Word Input Error'];
             }
         }
-
-
-        reg = new RegExp(`^${str}.*`);
+        reg = new RegExp(`^${str.toLowerCase()}.*`);
         console.log(reg);
         if (regExString == "") {
             console.log("full list")
@@ -148,7 +146,7 @@ function searchBasic(regExString = "", min = 0, max = Infinity) {
             list = [];
             for (item = 0; item < wordList.length; item++) {
                 const word = wordList[item];
-                const truth = reg.test(word.toLowerCase());
+                const truth = reg.test(word.word.toLowerCase());
                 if (truth && word.word.length >= min && word.word.length <= max) {
                     list.push({
                         "word": word.word,
