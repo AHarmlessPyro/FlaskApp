@@ -60,6 +60,14 @@ function importWords() {
             response.json().then((result) => {
                 console.log(result);
                 wordList = (result);
+                //currList = wordList;
+                for (i = 0; i < wordList.length; i++) {
+                    wordList[i] = {
+                        "word": wordList[i],
+                        "pos": i
+                    }
+                }
+                currList = wordList;
                 render(0, searchAdv(), placementElement);
             });
         }
@@ -74,9 +82,9 @@ function searchAdv(regExString = "", min = 0, max = Infinity) {
             list = [];
             for (item = 0; item < wordList.length; item++) {
                 const word = wordList[item];
-                if (word.length >= min && word.length <= max) {
+                if (word.word.length >= min && word.word.length <= max) {
                     list.push({
-                        "word": word,
+                        "word": word.word,
                         "pos": item
                     });
                 }
@@ -87,9 +95,9 @@ function searchAdv(regExString = "", min = 0, max = Infinity) {
             for (item = 0; item < wordList.length; item++) {
                 const word = wordList[item];
                 const truth = reg.test(word);
-                if (truth && word.length >= min && word.length <= max) {
+                if (truth && word.word.length >= min && word.word.length <= max) {
                     list.push({
-                        "word": word,
+                        "word": word.word,
                         "pos": item
                     });
                 }
@@ -99,7 +107,7 @@ function searchAdv(regExString = "", min = 0, max = Infinity) {
     } catch (error) {
         console.log(error);
         console.log("Input Error, Trying again");
-        return search(regExString.slice(0, regExString.length - 1));
+        return search[document.getElementById('preferDouble').checked ? 1 : 0](regExString.slice(0, regExString.length - 1));
     }
 }
 
@@ -128,9 +136,9 @@ function searchBasic(regExString = "", min = 0, max = Infinity) {
             list = [];
             for (item = 0; item < wordList.length; item++) {
                 const word = wordList[item];
-                if (word.length >= min && word.length <= max) {
+                if (word.word.length >= min && word.word.length <= max) {
                     list.push({
-                        "word": word,
+                        "word": word.word,
                         "pos": item
                     });
                 }
@@ -141,9 +149,9 @@ function searchBasic(regExString = "", min = 0, max = Infinity) {
             for (item = 0; item < wordList.length; item++) {
                 const word = wordList[item];
                 const truth = reg.test(word.toLowerCase());
-                if (truth && word.length >= min && word.length <= max) {
+                if (truth && word.word.length >= min && word.word.length <= max) {
                     list.push({
-                        "word": word,
+                        "word": word.word,
                         "pos": item
                     });
                 }
@@ -153,7 +161,7 @@ function searchBasic(regExString = "", min = 0, max = Infinity) {
     } catch (error) {
         console.log(error);
         console.log("Input Error, Trying again");
-        return search(regExString.slice(0, regExString.length - 1));
+        return search[document.getElementById('preferDouble').checked ? 1 : 0](regExString.slice(0, regExString.length - 1));
     }
 }
 
