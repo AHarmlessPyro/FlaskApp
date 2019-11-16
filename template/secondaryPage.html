@@ -22,7 +22,9 @@ align-items: center;">
     Short Definition for {{Word}}:
     <br>
     <br>
-    {{list_item['shortdef'][0]}}
+    {% for item in list_item['shortdef'] %}
+    {{item}}<br>
+    {% endfor %}
 
     <br>
     <button
@@ -43,13 +45,13 @@ border-radius: 10px;
 border: 2px solid black;
 display: grid;
 align-items: center;">
-    Select another item on the list to see another item. 
+    Select another item on the list to see another item.
     <br>
     Scroll on the left side of the page to see more items in the dictionary
     <br>
-    
 
-    <br>    
+
+    <br>
 </div>
 {% endblock %}
 {% block initScripts %}

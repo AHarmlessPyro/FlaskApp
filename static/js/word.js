@@ -41,12 +41,12 @@ function init(placementE, inputE) {
                 console.log("Mouse went down");
                 console.log(`Position : ${window.scrollY} at ${(new Date()).getTime()}`);
                 lastOccurence = (new Date()).getTime();
-                render(Math.max(count - 20, 0), currList, placementE);
+                render(Math.max(count - 10, 0), currList, placementE);
             } else {
                 console.log("Mouse went up");
                 console.log(`Position : ${window.scrollY} at ${(new Date()).getTime()}`);
                 lastOccurence = (new Date()).getTime()
-                render(Math.min(count + 20, currList.length - 20), currList, placementE);
+                render(Math.min(count + 10, currList.length - 10), currList, placementE);
             }
         }
     });

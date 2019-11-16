@@ -35,12 +35,12 @@ function init(placementE) {
                 console.log("Mouse went down");
                 console.log(`Position : ${window.scrollY} at ${(new Date()).getTime()}`);
                 lastOccurence = (new Date()).getTime();
-                render(Math.max(count - 20, 0), currList, placementE);
+                render(Math.max(count - 10, 0), currList, placementE);
             } else {
                 console.log("Mouse went up");
                 console.log(`Position : ${window.scrollY} at ${(new Date()).getTime()}`);
                 lastOccurence = (new Date()).getTime()
-                render(Math.min(count + 20,currList.length-20), currList, placementE);
+                render(Math.min(count + 10,currList.length-10), currList, placementE);
             }
         }
     });
@@ -55,7 +55,7 @@ function importWords() {
                 console.log(result);
                 wordList = (result);
                 currList = wordList
-                render(Math.max(num - 20, 0), wordList, placementElement);
+                render(Math.max(num - 10, 0), wordList, placementElement);
             });
         }
     });
