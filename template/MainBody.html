@@ -43,7 +43,7 @@
 <div id="sideWindowE" style="overflow: auto;">
 </div>{% endblock %}
 {% block initScripts %}
-<script src="static/js/word.js"></script>
+<script src="{{url_for('static',filename='js/word.js')}}"></script>
 <script>
     window.addEventListener('load', () => {
         init(document.getElementById('sideWindowE'), document.getElementById('inputE'));

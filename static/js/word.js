@@ -41,12 +41,12 @@ function init(placementE, inputE) {
                 console.log("Mouse went down");
                 console.log(`Position : ${window.scrollY} at ${(new Date()).getTime()}`);
                 lastOccurence = (new Date()).getTime();
-                render(Math.min(count - 10, 0), currList, placementE);
+                render(Math.max(count - 20, 0), currList, placementE);
             } else {
                 console.log("Mouse went up");
                 console.log(`Position : ${window.scrollY} at ${(new Date()).getTime()}`);
                 lastOccurence = (new Date()).getTime()
-                render(count + 10, currList, placementE);
+                render(Math.min(count + 20, currList.length - 20), currList, placementE);
             }
         }
     });
@@ -160,7 +160,7 @@ function searchBasic(regExString = "", min = 0, max = Infinity) {
 function render(pos, list, element) {
     printList = ""
     if (pos >= list.length) {
-        pos = list.length - 10 - 1;
+        pos = list.length - 20 - 1;
     }
     if (pos < 0) {
         pos = 0;
