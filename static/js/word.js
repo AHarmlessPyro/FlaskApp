@@ -60,16 +60,17 @@ function importWords() {
             response.json().then((result) => {
                 console.log(result);
                 wordList = (result);
+                render(0, searchAdv(), placementElement);
             });
         }
     });
 }
 
-function searchAdv(regExString, min = 0, max = Infinity) {
+function searchAdv(regExString = "", min = 0, max = Infinity) {
     try {
         reg = new RegExp(`^${regExString}.*`);
         console.log(reg);
-        if (inputReg == "") {
+        if (regExString == "") {
             list = [];
             for (item = 0; item < wordList.length; item++) {
                 const word = wordList[item];
@@ -96,7 +97,7 @@ function searchAdv(regExString, min = 0, max = Infinity) {
     }
 }
 
-function searchBasic(regExString, min = 0, max = Infinity) {
+function searchBasic(regExString = "", min = 0, max = Infinity) {
     try {
         str = "";
         len = 0;
@@ -116,7 +117,7 @@ function searchBasic(regExString, min = 0, max = Infinity) {
 
         reg = new RegExp(`^${str}.*`);
         console.log(reg);
-        if (inputReg == "") {
+        if (regExString == "") {
             console.log("full list")
             list = [];
             for (item = 0; item < wordList.length; item++) {

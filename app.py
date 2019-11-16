@@ -16,7 +16,6 @@ app.static_url_path = 'static'
 app.config['TESTING'] = True
 
 
-@app.route('/')
 @app.route('/index')
 def index():
     return "Hello, World!"
@@ -35,7 +34,7 @@ def ret(word):
     return render_template('body.html', list_item=val)
 
 
-@app.route('/test')
+@app.route('/')
 def testTemplateNesting():
     return render_template('MainBody.html')
 
