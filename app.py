@@ -24,10 +24,10 @@ def index():
 @app.route('/<word>/<position>')
 def ret(word, position):
     response = requests.get('https://www.dictionaryapi.com/api/v3/references/collegiate/json/' +
-                                word+'?key=721730b3-70ba-4169-9a3c-d170a41d49c3')
+                            word+'?key=721730b3-70ba-4169-9a3c-d170a41d49c3')
     val = response.json()
     val = val[0]
-    return render_template('secondaryPage.html', list_item=val)
+    return render_template('secondaryPage.html', list_item=val, Word=word)
 
 
 @app.route('/')
