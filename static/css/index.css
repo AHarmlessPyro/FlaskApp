@@ -44,6 +44,19 @@
     }
 }
 
+@keyframes enlargeWindow {
+    from {
+        transform: scale(0.05);
+    }
+    to {
+        transform: scale(1.0);
+    }
+}
+
+.transition {
+    animation: enlargeWindow 1000ms 1000ms forwards;
+}
+
 body {
     overflow-y: hidden;
 }
