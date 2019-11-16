@@ -1,26 +1,37 @@
 var wordList = []
 var count = 0;
 var lastOccurence = 0;
-var currList = wordList;
+var totalList = wordList;
 var placementElement = "";
 var inputElement = "";
+var letterElement = "";
 var search = [searchBasic, searchAdv];
+var currList = []
+var currIterator;
+var currentPosition = 0;
 
 function temp(event) {
     inputReg = inputElement.value;
-    out = (search[document.getElementById('preferDouble').checked ? 1 : 0](inputReg, document.getElementById('range_min').value, document.getElementById('range_max').value));
+    currentPosition = 0;
+    currList = [];
+    currIterator = null;
+    currIterator = (search[document.getElementById('preferDouble').checked ? 1 : 0](inputReg));
     console.log(document.getElementById('preferDouble').checked ? "using advanced" : "using basic");
     placementElement.innerHTML = "";
     listOfElements = "";
-    currList = out;
-    render(0, out, placementElement);
+    render(0, currIterator, placementElement);
 }
 
-function init(placementE, inputE) {
+function init(placementE, patternE, letterE) {
     placementElement = placementE;
-    inputElement = inputE;
+    inputElement = patternE;
+    letterElement = letterE
     importWords();
     inputE.addEventListener('input', (event) => {
+        temp(event);
+    });
+
+    letterE.addEventListener('input', (event) => {
         temp(event);
     });
 
@@ -41,12 +52,14 @@ function init(placementE, inputE) {
                 console.log("Mouse went down");
                 console.log(`Position : ${window.scrollY} at ${(new Date()).getTime()}`);
                 lastOccurence = (new Date()).getTime();
-                render(Math.max(count - 10, 0), currList, placementE);
+                count = Math.max(count - 10, 0);
+                render(count, currList, placementE);
             } else {
                 console.log("Mouse went up");
                 console.log(`Position : ${window.scrollY} at ${(new Date()).getTime()}`);
                 lastOccurence = (new Date()).getTime()
-                render(Math.min(count + 10, currList.length - 10), currList, placementE);
+                count = count + 10;
+                render(count, currList, placementE);
             }
         }
     });
@@ -61,125 +74,145 @@ function importWords() {
                 console.log(result);
                 wordList = (result);
                 //currList = wordList;
-                for (i = 0; i < wordList.length; i++) {
-                    wordList[i] = {
-                        "word": wordList[i],
-                        "pos": i
+                for (i_IW = 0; i_IW < wordList.length; i_IW++) {
+                    wordList[i_IW] = {
+                        "word": wordList[i_IW],
+                        "pos": i_IW
                     }
                 }
                 currList = wordList;
+                currentIterator = searchAdv();
                 render(0, searchAdv(), placementElement);
             });
         }
     });
 }
 
-function searchAdv(regExString = "", min = 0, max = Infinity) {
+function processRegEx(string, mode) {
+    // mode = true  => Advanced
+    // mode = false => Basic
+    if (string == "" && mode) {
+        return new RegExp('.*');
+    } else if (string == "") {
+        return new RegExp('');
+    }
     try {
-        reg = new RegExp(`^${regExString.toLowerCase()}.*`);
-        console.log(reg);
-        if (regExString == "") {
-            list = [];
-            for (item = 0; item < wordList.length; item++) {
-                const word = wordList[item];
-                if (word.word.length >= min && word.word.length <= max) {
-                    list.push({
-                        "word": word.word,
-                        "pos": item
-                    });
-                }
-            }
-            return list;
+        if (mode == true) {
+            return new RegExp(`^${string.toLowerCase()}.*`);
         } else {
-            list = [];
-            for (item = 0; item < wordList.length; item++) {
-                const word = wordList[item];
-                const truth = reg.test(word.word.toLowerCase());
-                if (truth && word.word.length >= min && word.word.length <= max) {
-                    list.push({
-                        "word": word.word,
-                        "pos": item
-                    });
+            for (i_P = 0; i_P < string.size; i_P++) {
+                if (!'abcdefghijklmnopqrstuvwxyz.'.include(string.slice(i_P, i_P + 1))) {
+                    return new RegExp('');
                 }
             }
-            return list;
         }
+        return new RegExp(string);
     } catch (error) {
         console.log(error);
         console.log("Input Error, Trying again");
-        return search[document.getElementById('preferDouble').checked ? 1 : 0](regExString.slice(0, regExString.length - 1));
+        return processRegEx(string.slice(0, string.length - 1), mode);//search[document.getElementById('preferDouble').checked ? 1 : 0](string.slice(0, string.length - 1));
     }
 }
 
-function searchBasic(regExString = "", min = 0, max = Infinity) {
-    try {
-        str = "";
-        len = 0;
-        regExString = regExString.toLowerCase();
-        inputList = 'abcdefghjklmnopqrstuvxyz.'
-        for (i = 0; i < regExString.length; i++) {
-            const letter = (regExString.slice(i, i + 1)).toLowerCase();
-            if (inputList.includes(letter)) {
-                str += letter;
-                min = str.length;
-                max = str.length;
-            } else {
-                return ['Word Input Error'];
-            }
+function wordFromLetters(word, lettersUsable) {
+    for (j = 0; j < word.length; j++) {
+        const letter = (word.slice(j, j + 1)).toLowerCase();
+        if (!(lettersUsable.includes(letter))) {
+            return false;
         }
-        reg = new RegExp(`^${str.toLowerCase()}.*`);
-        console.log(reg);
-        if (regExString == "") {
-            console.log("full list")
-            list = [];
-            for (item = 0; item < wordList.length; item++) {
-                const word = wordList[item];
-                if (word.word.length >= min && word.word.length <= max) {
-                    list.push({
-                        "word": word.word,
-                        "pos": item
-                    });
+    }
+    return true;
+}
+
+function SearchReturnNext(Reg, list = totalList, position = 0, letterSizeMin = 3, letterSizeMax = 10, mode = false) {
+    lettersUsable = document.getElementById('inputK').value;
+    if (lettersUsable == "") {
+        lettersUsable = 'abcdefghjklmnopqrstuvxyz';
+    }
+    for (i_SRN = position; i_SRN < list.length; i_SRN++) {
+        let word = list[i_SRN].word;
+        truthReg = Reg.test(word.toLowerCase());
+        truthLetters = wordFromLetters(word, lettersUsable);
+        if (mode) {
+            if (truthReg && truthLetters && word.length >= letterSizeMin && word.length <= letterSizeMax) {
+                return {
+                    "word": word,
+                    "pos": i_SRN
                 }
             }
-            return list;
         } else {
-            list = [];
-            for (item = 0; item < wordList.length; item++) {
-                const word = wordList[item];
-                const truth = reg.test(word.word.toLowerCase());
-                if (truth && word.word.length >= min && word.word.length <= max) {
-                    list.push({
-                        "word": word.word,
-                        "pos": item
-                    });
+            if (truthReg && truthLetters && word.length == (("" + Reg).length - 2)) {
+                return {
+                    "word": word,
+                    "pos": i_SRN
                 }
             }
-            return list;
         }
-    } catch (error) {
-        console.log(error);
-        console.log("Input Error, Trying again");
-        return search[document.getElementById('preferDouble').checked ? 1 : 0](regExString.slice(0, regExString.length - 1));
+    }
+    return {
+        "word": null,
+        "pos": NaN
     }
 }
 
-function render(pos, list, element) {
+function* searchAdv(regExString = "") {
+    min = parseInt(document.getElementById('range_min').value);
+    max = parseInt(document.getElementById('range_max').value);
+    reg = processRegEx(regExString.toLocaleLowerCase(), true);
+
+    currentPosition = -1;
+    while (currentPosition < wordList.length) {
+        item = SearchReturnNext(reg, wordList, currentPosition + 1, min, max, true);
+        yield item;
+        currentPosition = item.pos;
+    }
+}
+
+function* searchBasic(regExString = "") {
+    min = parseInt(document.getElementById('range_min').value);
+    max = parseInt(document.getElementById('range_max').value);
+    reg = new RegExp();
+    mode = false;
+    if (regExString == "") {
+        mode = true;
+        reg = processRegEx(regExString.toLocaleLowerCase(), mode);
+    } else {
+        reg = processRegEx(regExString.toLocaleLowerCase(), mode);
+    }
+
+    currentPosition = -1;
+    while (currentPosition < wordList.length) {
+        item = SearchReturnNext(reg, wordList, currentPosition + 1, min, max, mode);
+        yield item;
+        currentPosition = item.pos;
+    }
+}
+
+function render(pos, iter, element) {
     printList = ""
-    if (pos >= list.length) {
-        pos = list.length - 20 - 1;
-    }
-    if (pos < 0) {
-        pos = 0;
-    }
-    count = pos;
-    console.log("Position is " + count);
-    for (i = pos; i < Math.min(pos + 20, list.length); i++) {
-        printList += `<div class="fadebox">
-        <span class="fadeInWord" style="animation-delay:${(i - pos) * 300}ms;" id="textSpan${i}">
-            <a href = "./${list[i].word}/${list[i].pos}" style="color:inherit;">${list[i].word}</a>
-        </span>
-    </div>
-    <br>`;
+    k = pos;
+    while (k < (pos + 20)) {
+        word = "";
+        try {
+            word = currList[k];
+            if (word == undefined) {
+                throw new RangeError("word not in list yet.");
+            }
+        } catch (error) {
+            currList[k] = iter.next().value;
+            word = currList[k];
+        }
+        console.log(word);
+        if (word != undefined && word.word != null) {
+            printList +=
+                `<div class="fadebox">
+                    <span class="fadeInWord" style="animation-delay:${(k - pos) * 300}ms;" id="textSpan${k}">
+                        <a href = "./${word.word}/${word.pos}" style="color:inherit;">${word.word}</a>
+                    </span>
+                </div>
+            <br>`;
+        }
+        k++;
     }
     element.innerHTML = "";
     element.insertAdjacentHTML('beforeend', printList);
