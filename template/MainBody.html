@@ -2,7 +2,9 @@
 {% block inputA%}
 <div style="display: grid;height: 100%;">
     <textarea type="text" id="inputE"
-        style="width: calc(100% - 40px);height: calc(100% - 48px);margin: 16px 20px;overflow: hidden;font-size: 20px;resize: none;"></textarea>
+        style="width: calc(100% - 40px);height: calc(100% - 48px);margin: 16px 20px;overflow: hidden;font-size: 20px;resize: none;" placeholder="Pattern goes here"></textarea>
+    <textarea type="text" id="inputK"
+        style="width: calc(100% - 40px);height: calc(100% - 48px);margin: 16px 20px;overflow: hidden;font-size: 20px;resize: none;" placeholder="Letters go here"></textarea>
     <div style="display: grid;grid-template-columns: repeat(auto-fit,33.33%);">
         <div style="color: white;
         justify-content: center;
@@ -20,7 +22,7 @@
         display: grid;
         align-content: center;">Full Regex</div>
     </div>
-    <!--Twin Sliders taken from https://stackoverflow.com/a/44384948-->
+    <!--Twin Sliders taken from https://stackoverflow.com/a/44384948 -->
     <div>
         <div class="rangeslider" style="
             margin-top: 0px;
@@ -46,7 +48,7 @@
 <script src="{{url_for('static',filename='js/word.js')}}"></script>
 <script>
     window.addEventListener('load', () => {
-        init(document.getElementById('sideWindowE'), document.getElementById('inputE'));
+        init(document.getElementById('sideWindowE'), document.getElementById('inputE'),document.getElementById('inputK'));
     });
 </script>
 <script>
