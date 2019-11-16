@@ -27,6 +27,21 @@ def ret(word, position):
                             word+'?key=721730b3-70ba-4169-9a3c-d170a41d49c3')
     val = response.json()
     print(val[0])
+
+    list_item_ret = ""
+
+    try:
+        if(val[0]['shortdef'] == None or len(val[0]['shortdef']) == 0):
+            print("Hello")
+            item = dict()
+            item['shortdef'] = ['Word doesn\'t exist in Webster Dictionary']
+            return render_template('secondaryPage.html', list_item=item, Word=word)
+    except:
+        print("No Hello")
+        item = dict()
+        item['shortdef'] = ['Word doesn\'t exist in Webster Dictionary']
+        return render_template('secondaryPage.html', list_item=item, Word=word)
+    print("Pass through")
     return render_template('secondaryPage.html', list_item=val[0], Word=word)
 
 
