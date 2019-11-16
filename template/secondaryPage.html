@@ -31,7 +31,12 @@ align-items: center;">
         onclick="document.getElementById('initExplainBox').style.display = 'none';document.getElementById('initExplainDiv').style.display = 'none';">
         CLICK ME TO DISMISS</button>
 </div>
-<div id="initExplainBox" style="margin: 37.5vh 37.5vh 37.5vw 14.75vw;
+<script>
+    window.addEventListener('load',
+        () => { document.getElementById('initExplainBox').classList.add('transition') }
+    );
+</script>
+<div id="initExplainBox_1" style="margin: 37.5vh 37.5vh 37.5vw 14.75vw;
 height: 25vh;
 width: 25vw;
 background-color: black;
